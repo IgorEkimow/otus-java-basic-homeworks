@@ -9,11 +9,13 @@ public class App {
     * Реализуйте метод, который считает сумму элементов второй строки двумерного массива, если второй строки не существует, то в качестве результата необходимо вернуть -1
     * */
 
-
     public static void main(String[] args) {
         int[][] arr = {{1, 5, -8, 12, -2, 12, 20, -1, 4}, {12, 2, -10, 9, 11, 12, 0}};
+        int fieldSize = 8;
 
         System.out.println("Сумма всех элементов двумерного массива: " + sumOfPositiveElements(arr));
+
+        drawField(fieldSize);
     }
 
     public static int sumOfPositiveElements(int[][] array) {
@@ -30,5 +32,18 @@ public class App {
         return count;
     }
 
+    public static void drawField(int size) {
+        if (size <= 0) {
+            System.out.println("Размер должен быть положительным числом");
+            return;
+        }
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.print(" * ");
+            }
+            System.out.println();
+        }
+    }
 
 }
