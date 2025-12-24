@@ -11,11 +11,12 @@ public class App {
 
     public static void main(String[] args) {
         int[][] arr = {{1, 5, -8, 12, -2, 12, 20, -1, 4}, {12, 2, -10, 9, 11, 12, 0}};
+        int[][] arrMatrix = {{25, 17, 44}, {9, 18, 4}, {14, 12, 7}};
         int fieldSize = 8;
 
         System.out.println("Сумма всех элементов двумерного массива: " + sumOfPositiveElements(arr));
-
         drawField(fieldSize);
+        zeroDiagonals(arrMatrix);
     }
 
     public static int sumOfPositiveElements(int[][] array) {
@@ -46,4 +47,23 @@ public class App {
         }
     }
 
+    public static void zeroDiagonals(int[][] array) {
+        int main = Math.min(array.length, array[0].length);
+
+        for (int i = 0; i < main; i++) {
+            array[i][i] = 0;
+
+            int j = main - 1 - i;
+            if (i != j) {
+                array[i][j] = 0;
+            }
+        }
+
+        for (int[] row : array) {
+            for (int value : row) {
+                System.out.print(" " + value + " ");
+            }
+            System.out.println();
+        }
+    }
 }
