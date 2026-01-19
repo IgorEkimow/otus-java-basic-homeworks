@@ -28,10 +28,5 @@ public class Main {
                 user.info();
             }
         }
-
-        System.out.println("--------------------------------------");
-
-        Box box = new Box("30", "Красный");
-        box.info();
     }
 }
