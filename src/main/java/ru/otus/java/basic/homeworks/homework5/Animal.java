@@ -1,36 +1,87 @@
 package ru.otus.java.basic.homeworks.homework5;
 
-/*
-* Создайте классы Cat, Dog и Horse с наследованием от класса Animal
-* У каждого животного есть имя, скорость бега и плавания (м/с), и выносливость (измеряется в условных единицах)
-*
-* Затраты выносливости:
-* Все животные на 1 метр бега тратят 1 ед выносливости,
-* Собаки на 1 метр плавания - 2 ед.
-* Лошади на 1 метр плавания тратят 4 единицы
-* Кот плавать не умеет.
-* Реализуйте методы run(int distance) и swim(int distance), которые должны возвращать время, затраченное на указанное действие, и “понижать выносливость” животного. Если выносливости не хватает, то возвращаем время -1 и указываем что у животного появилось состояние усталости. При выполнении действий пишем сообщения в консоль.
-* Добавляем метод info(), который выводит в консоль состояние животного.
-* */
-
-public class Animal {
+public abstract class Animal {
     public String name;
-    public int speedRun;
-    public int speedSwim;
+    public int runSpeed;
+    public int swimSpeed;
     public int endurance;
+    protected boolean isTired;
 
-    public Animal(String name, int speedRun, int speedSwim, int endurance) {
+    public Animal(String name, int runSpeed, int swimSpeed, int endurance) {
         this.name = name;
-        this.speedRun = speedRun;
-        this.speedSwim = speedSwim;
+        this.runSpeed = runSpeed;
+        this.swimSpeed = swimSpeed;
         this.endurance = endurance;
+        this.isTired = false;
     }
 
-     public void info() {
+    protected abstract int getSwimFactor();
+
+    public int run(int distance) {
+        if (isTired) {
+            System.out.println(name + " устал и не может бежать!");
+
+            return -1;
+        }
+
+        if (distance > endurance) {
+            System.out.println(name + " не хватает выносливости для бега на " + distance + " м!");
+            System.out.println("Нужно " + distance + " ед выносливости, а есть только " + endurance);
+            isTired = true;
+
+            return -1;
+        }
+
+        endurance -= distance;
+
+        int time = distance / runSpeed;
+
+        System.out.println(name + " пробежал " + distance + " м за " + time + " сек. " + "Затрачено выносливости: " + distance + ". " + "Осталось выносливости: " + endurance);
+
+        if (endurance == 0) {
+            isTired = true;
+            System.out.println(name + " полностью выдохся!");
+        }
+
+        return time;
+    }
+
+    public int swim(int distance) {
+        if (isTired) {
+            System.out.println(name + " устал и не может плыть!");
+
+            return -1;
+        }
+
+        int enduranceCost = distance * getSwimFactor();
+
+        if (enduranceCost > endurance) {
+            System.out.println(name + " не хватает выносливости для плавания на " + distance + " м!");
+            System.out.println("Нужно " + enduranceCost + " ед выносливости, а есть только " + endurance);
+            isTired = true;
+
+            return -1;
+        }
+
+        endurance -= enduranceCost;
+
+        int time = distance / swimSpeed;
+
+        System.out.println(name + " проплыл " + distance + " м за " + time + " сек. " + "Затрачено выносливости: " + enduranceCost + ". " + "Осталось выносливости: " + endurance);
+
+        if (endurance == 0) {
+            isTired = true;
+            System.out.println(name + " полностью выдохся!");
+        }
+
+        return time;
+    }
+
+    public void info() {
         System.out.println("Имя: " + name);
-        System.out.println("Скорость бега: " + speedRun);
-        System.out.println("Скорость плавания: " + speedSwim);
+        System.out.println("Скорость бега: " + runSpeed  + " м/с");
+        System.out.println("Скорость плавания: " + swimSpeed  + " м/с");
         System.out.println("Выносливость: " + endurance);
-        System.out.println("--------------------------");
+        System.out.println("Статус: " + (isTired ? "уставший" : "бодрый"));
     }
 }

@@ -1,7 +1,21 @@
 package ru.otus.java.basic.homeworks.homework5;
 
 public class Cat extends Animal {
-    public Cat(String name, int speedRun, int speedSwim, int endurance) {
-        super(name, speedRun, speedSwim, endurance);
+    private static final int SWIM_FACTOR = 0;
+
+    public Cat(String name, int runSpeed, int endurance) {
+        super(name, runSpeed, 0, endurance);
+    }
+
+    @Override
+    protected int getSwimFactor() {
+        return SWIM_FACTOR;
+    }
+
+    @Override
+    public int swim(int distance) {
+        System.out.println(name + " не умеет плавать!");
+
+        return -1;
     }
 }
