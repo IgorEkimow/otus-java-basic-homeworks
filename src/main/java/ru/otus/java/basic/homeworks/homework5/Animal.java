@@ -34,6 +34,8 @@ public abstract class Animal {
 
         endurance -= distance;
 
+        endurance = Math.max(0, endurance);
+
         int time = distance / runSpeed;
 
         System.out.println(name + " пробежал " + distance + " м за " + time + " сек. " + "Затрачено выносливости: " + distance + ". " + "Осталось выносливости: " + endurance);
@@ -64,6 +66,8 @@ public abstract class Animal {
         }
 
         endurance -= enduranceCost;
+
+        endurance = Math.max(0, endurance);
 
         int time = distance / swimSpeed;
 
