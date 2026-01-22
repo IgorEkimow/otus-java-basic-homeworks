@@ -1,13 +1,15 @@
 package ru.otus.java.basic.homeworks.homework4;
 
+import java.time.LocalDate;
+
 public class User {
     private String lastName;
     private String firstName;
     private String patronymic;
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
     private String email;
 
-    public User(String lastName, String firstName, String patronymic, String dateOfBirth, String email) {
+    public User(String lastName, String firstName, String patronymic, LocalDate dateOfBirth, String email) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.patronymic = patronymic;
@@ -39,11 +41,11 @@ public class User {
         this.patronymic = patronymic;
     }
 
-    public String getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -57,7 +59,7 @@ public class User {
 
     public void info() {
         System.out.println("ФИО: " + lastName + " " + firstName + " " + patronymic);
-        System.out.println("Год рождения: " + dateOfBirth);
+        System.out.println("Год рождения: " + dateOfBirth.format(java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy")));
         System.out.println("E-mail: " + email);
         System.out.println("------------------------------");
     }

@@ -1,28 +1,26 @@
 package ru.otus.java.basic.homeworks.homework4;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.Period;
 
 public class Main {
     public static void main(String[] args) {
         User[] users = {
-            new User("Иванов", "Иван", "Иванович", "21.05.1958", "ivan@mail.ru"),
-            new User("Петров", "Петр", "Петрович", "12.03.1973", "petr@mail.ru"),
-            new User("Семенов", "Семен", "Семенович", "03.02.1980", "semen@mail.ru"),
-            new User("Сергеев", "Сергей", "Сергеевич", "09.09.1965", "sergey@mail.ru"),
-            new User("Алексеев", "Алексей", "Алексеевич", "18.05.2001", "alexey@mail.ru"),
-            new User("Юриев", "Юрий", "Юриевич", "24.06.1991", "uriy@mail.ru"),
-            new User("Максимов", "Максим", "Максимович", "20.01.2004", "max@mail.ru"),
-            new User("Степанов", "Степан", "Степанович", "10.07.1998", "stepan@mail.ru"),
-            new User("Борисов", "Борис", "Борисович", "19.04.1968", "boris@mail.ru"),
-            new User("Константинов", "Константин", "Константинович", "13.11.1987", "konstantin@mail.ru")
+            new User("Иванов", "Иван", "Иванович", LocalDate.of(1958, 5, 21), "ivan@mail.ru"),
+            new User("Петров", "Петр", "Петрович", LocalDate.of(1973, 3, 12), "petr@mail.ru"),
+            new User("Семенов", "Семен", "Семенович", LocalDate.of(1980, 2, 3), "semen@mail.ru"),
+            new User("Сергеев", "Сергей", "Сергеевич", LocalDate.of(1965, 9, 9), "sergey@mail.ru"),
+            new User("Алексеев", "Алексей", "Алексеевич", LocalDate.of(2001, 5, 18), "alexey@mail.ru"),
+            new User("Юриев", "Юрий", "Юриевич", LocalDate.of(1991, 6, 24), "uriy@mail.ru"),
+            new User("Максимов", "Максим", "Максимович", LocalDate.of(2004, 1, 20), "max@mail.ru"),
+            new User("Степанов", "Степан", "Степанович", LocalDate.of(1998, 7, 10), "stepan@mail.ru"),
+            new User("Борисов", "Борис", "Борисович", LocalDate.of(1968, 4, 19), "boris@mail.ru"),
+            new User("Константинов", "Константин", "Константинович", LocalDate.of(1987, 11, 13), "konstantin@mail.ru")
         };
 
         for (User user : users) {
-            LocalDate birthDate = LocalDate.parse(user.getDateOfBirth(), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
             LocalDate todayDate = LocalDate.now();
-            Period period = Period.between(birthDate, todayDate);
+            Period period = Period.between(user.getDateOfBirth(), todayDate);
 
             if(period.getYears() > 40) {
                 user.info();
