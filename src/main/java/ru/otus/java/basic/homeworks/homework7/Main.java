@@ -14,6 +14,8 @@ package ru.otus.java.basic.homeworks.homework7;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Initial Main class");
+        Human human = new Human("Александр");
+
+        System.out.println(human.getName());
     }
 }

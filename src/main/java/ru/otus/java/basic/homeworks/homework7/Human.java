@@ -2,10 +2,18 @@ package ru.otus.java.basic.homeworks.homework7;
 
 public class Human {
     public String name;
-    public String currentTransport;
+    public Transport currentTransport;
 
-    public Human(String name, String currentTransport) {
+    public Human(String name) {
         this.name = name;
-        this.currentTransport = currentTransport;
+        this.currentTransport = null;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Transport getCurrentTransport() {
+        return currentTransport;
     }
 }
