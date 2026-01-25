@@ -1,22 +1,38 @@
 package ru.otus.java.basic.homeworks.homework6;
 
 public class Plate {
-    public int volume;
-    public int maxFood;
-    public int foodAmount;
+    private int maxFood;
+    private int foodAmount;
 
-    public Plate(int volume, int maxFood, int foodAmount) {
-        this.volume = volume;
-        this.maxFood = maxFood;
-        this.foodAmount = foodAmount;
+    public Plate(int volume) {
+        this.maxFood = volume;
+        this.foodAmount = volume;
     }
 
-    public int getVolume() {
-        return volume;
+    public void addFood(int amount) {
+        if (amount > 0) {
+            foodAmount += amount;
+
+            if (foodAmount > maxFood) {
+                foodAmount = maxFood;
+            }
+
+            System.out.println("В тарелку добавлено " + amount + " еды. Теперь в тарелке: " + foodAmount + " еды");
+        }
     }
 
-    public void setVolume(int volume) {
-        this.volume = volume;
+    public boolean decreaseFood(int amount) {
+        if (amount <= 0) {
+            return false;
+        }
+
+        if (foodAmount >= amount) {
+            foodAmount -= amount;
+
+            return true;
+        }
+
+        return false;
     }
 
     public int getMaxFood() {
@@ -31,7 +47,7 @@ public class Plate {
         return foodAmount;
     }
 
-    public void setFoodAmount(int foodAmount) {
-        this.foodAmount = foodAmount;
+    public void info() {
+        System.out.println("Тарелка: " + foodAmount + " / " + maxFood + " еды");
     }
 }
