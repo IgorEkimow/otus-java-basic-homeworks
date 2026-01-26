@@ -1,21 +1,40 @@
 package ru.otus.java.basic.homeworks.homework7;
 
-/*
-1. Создайте класс Человек с полями name (имя) и currentTransport (текущий транспорт)
-2. Реализуйте в вашем приложении классы Машина, Лошадь, Велосипед, Вездеход
-3. Каждый из классов должен предоставлять возможность перемещаться на определенное расстояние с указанием типа местности
-4. В приложении должны быть типы местности: густой лес, равнина, болото
-5. Человек должен иметь возможность сесть на любой из этих видов транспорта, встать с него, или переместиться на некоторое расстояние (при условии что он находится на каком-либо транспорте)
-6. При попытке выполнить перемещение у человека, не использующего транспорт, считаем что он просто идет указанное расстояние пешком
-7. При перемещении Машина и Вездеход тратят бензин, который у них ограничен. Лошадь тратит силы. Велосипед может использоваться без ограничений (можете для усложнения велосипедом тратить силы “водителя”). При выполнении действия результат должен быть отпечатан в консоль
-8. У каждого вида транспорта есть местности по которым он не может перемещаться: машина - густой лес и болото, лошадь и велосипед - болото, вездеход - нет ограничений
-9. При попытке переместиться должен быть возвращен результат true/false - удалось ли выполнить действие
- */
-
 public class Main {
     public static void main(String[] args) {
         Human human = new Human("Александр");
+        Car car = new Car(250);
+        Horse horse = new Horse(720);
+        Bike bike = new Bike(200);
+        Atv atv = new Atv(180);
 
-        System.out.println(human.getName());
+        System.out.println("--- Пешком ---");
+        human.move(12, Terrain.FOREST);
+
+        System.out.println("--- На машине ---");
+        human.getIn(car);
+        human.move(30, Terrain.PLAIN);
+        human.move(11, Terrain.FOREST);
+        human.move(27, Terrain.SWAMP);
+        human.getOut();
+
+        System.out.println("--- На лошади ---");
+        human.getIn(horse);
+        human.move(21, Terrain.FOREST);
+        human.move(12, Terrain.SWAMP);
+        human.getOut();
+
+        System.out.println("--- На велосипеде ---");
+        human.getIn(bike);
+        human.move(10, Terrain.PLAIN);
+        human.move(8, Terrain.SWAMP);
+        human.getOut();
+
+        System.out.println("--- На вездеходе ---");
+        human.getIn(atv);
+        human.move(14, Terrain.FOREST);
+        human.move(26, Terrain.SWAMP);
+        human.move(39, Terrain.PLAIN);
+        human.getOut();
     }
 }
