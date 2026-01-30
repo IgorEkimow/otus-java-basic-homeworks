@@ -1,15 +1,5 @@
 package ru.otus.java.basic.homeworks.homework8;
 
-/*
-- Реализуйте метод, аргументом которого является двумерный строковый массив размером 4х4.
-Если передан массив другого размера необходимо бросить исключение AppArraySizeException.
-- Метод должен обойти все элементы массива, преобразовать в int и просуммировать. Если в каком-то элементе массива преобразование
-не удалось (например, в ячейке лежит текст вместо числа), должно быть брошено исключение AppArrayDataException с детализацией,
-в какой именно ячейке лежат неверные данные.
-- В методе main() необходимо вызвать полученный метод, обработать возможные исключения AppArraySizeException и
-и вывести результат расчета (сумму элементов, при условии что подали на вход корректный массив).
-*/
-
 public class Main {
     public static void main(String[] args) {
         String[][] array = {
@@ -42,7 +32,7 @@ public class Main {
                     int value = Integer.parseInt(string);
                     sum += value;
                 } catch (NumberFormatException e) {
-                    throw new AppArrayDataException("Преобразование в число выполнить невозможно");
+                    throw new AppArrayDataException("Невозможно выполнить преобразование в число в ячейке - " + string);
                 }
             }
         }
