@@ -26,13 +26,13 @@ public class Main {
 
         int sum = 0;
 
-        for (String[] strings : array) {
-            for (String string : strings) {
+        for (int i = 0; i < array.length ; i++) {
+            for (int j = 0; j < array[i].length ; j++) {
                 try {
-                    int value = Integer.parseInt(string);
+                    int value = Integer.parseInt(array[i][j]);
                     sum += value;
                 } catch (NumberFormatException e) {
-                    throw new AppArrayDataException("Невозможно выполнить преобразование в число в ячейке - " + string);
+                    throw new AppArrayDataException(String.format("Невозможно выполнить преобразование в число в ячейке - [%d][%d]", i, j));
                 }
             }
         }
