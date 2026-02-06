@@ -4,16 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    /*
-    - Создайте класс Сотрудник с полями: имя, возраст;
-    - Реализуйте метод, принимающий в качестве аргумента список сотрудников, и возвращающий список их имен;
-    - Реализуйте метод, принимающий в качестве аргумента список сотрудников и минимальный возраст, и возвращающий
-    список сотрудников, возраст которых больше либо равен указанному аргументу;
-    - Реализуйте метод, принимающий в качестве аргумента список сотрудников и минимальный средний возраст, и проверяющий
-    что средний возраст сотрудников превышает указанный аргумент;
-    - Реализуйте метод, принимающий в качестве аргумента список сотрудников, и возвращающий ссылку на самого молодого сотрудника.
-    */
-
     public static void main(String[] args) {
         System.out.println(rangeElements(1, 7));
         System.out.println("-------------");
@@ -22,6 +12,21 @@ public class Main {
         System.out.println(rewriteElements(3, List.of(10, 9, 8, 7, 6, 5, 4, 3, 2, 1)));
         System.out.println("-------------");
         System.out.println(increaseElements(2, List.of(1, 2, 3, 4, 5)));
+        System.out.println("-------------");
+
+        int minAge = 25;
+        int minAverageAge = 26;
+
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee("Александр", 21));
+        employees.add(new Employee("Юлия", 33));
+        employees.add(new Employee("Анастасия", 23));
+        employees.add(new Employee("Екатерина", 28));
+
+        System.out.println("Список имен сотрудников: " + getEmployeeName(employees));
+        System.out.println("Список сотрудников старше " + minAge + " лет: " + getEmployeeMinAge(employees, minAge));
+        System.out.println("Средний возраст сотрудников больше " + minAverageAge + " лет: " + getEmployeeAverageAge(employees, minAverageAge));
+        System.out.println("Самый молодой сотрудник: " + getYoungestEmployee(employees).getName() + ", возраст: " + getYoungestEmployee(employees).getAge());
     }
 
     public static ArrayList<Integer> rangeElements(int min, int max) {
@@ -64,5 +69,51 @@ public class Main {
         }
 
         return list;
+    }
+
+    public static List<String> getEmployeeName(List<Employee> employees) {
+        List<String> names = new ArrayList<>();
+
+        for (Employee employee : employees) {
+            names.add(employee.getName());
+        }
+
+        return names;
+    }
+
+    public static List<String> getEmployeeMinAge(List<Employee> employees, int minAge) {
+        List<String> list = new ArrayList<>();
+
+        for (Employee employee : employees) {
+            if(employee.getAge() >= minAge) {
+                list.add(employee.getName());
+            }
+        }
+
+        return list;
+    }
+
+    public static boolean getEmployeeAverageAge(List<Employee> employees, int minAverageAge) {
+        int totalAge = 0;
+
+        for (Employee employee : employees) {
+            totalAge += employee.getAge();
+        }
+
+        double averageAge = (double) totalAge / employees.size();
+
+        return averageAge > minAverageAge;
+    }
+
+    public static Employee getYoungestEmployee(List<Employee> employees) {
+        Employee youngest = employees.getFirst();
+
+        for (Employee employee : employees) {
+            if (employee.getAge() < youngest.getAge()) {
+                youngest = employee;
+            }
+        }
+
+        return youngest;
     }
 }
