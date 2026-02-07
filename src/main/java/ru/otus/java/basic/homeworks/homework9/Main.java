@@ -29,8 +29,8 @@ public class Main {
         System.out.println("Самый молодой сотрудник: " + getYoungestEmployee(employees).getName() + ", возраст: " + getYoungestEmployee(employees).getAge());
     }
 
-    public static ArrayList<Integer> rangeElements(int min, int max) {
-        ArrayList<Integer> list = new ArrayList<>();
+    public static List<Integer> rangeElements(int min, int max) {
+        List<Integer> list = new ArrayList<>();
 
         for (int i = min; i <= max; i++) {
             list.add(i);
