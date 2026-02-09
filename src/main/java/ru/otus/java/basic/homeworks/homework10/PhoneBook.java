@@ -2,14 +2,15 @@ package ru.otus.java.basic.homeworks.homework10;
 
 import java.util.Map;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class PhoneBook {
     private final Map<String, List<String>> phoneBook;
 
     public PhoneBook() {
-        this.phoneBook = new TreeMap<>();
+        this.phoneBook = new HashMap<>();
     }
 
     public void add(String name, String phone) {
@@ -17,14 +18,12 @@ public class PhoneBook {
             List<String> phones = phoneBook.get(name);
             phones.add(phone);
         } else {
-            List<String> phones = new ArrayList<>();
-            phones.add(phone);
-            phoneBook.put(name, phones);
+            phoneBook.computeIfAbsent(name, k -> new ArrayList<>()).add(phone);
         }
     }
 
     public List<String> find(String name) {
-        return phoneBook.getOrDefault(name, new ArrayList<>());
+        return new ArrayList<>(phoneBook.getOrDefault(name, Collections.emptyList()));
     }
 
     public boolean containsPhoneNumber(String phone) {
