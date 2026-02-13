@@ -1,15 +1,21 @@
 package ru.otus.java.basic.homeworks.homework11;
 
-public class Main {
-    /*
-    * Построение простейшего двоичного дерева и поиск по нему
-    *
-    * Написать программу делающую следующее
-    * - Из Предварительно отсортированного списка (List) сформировать двоичное дерево поиска
-    * - Написать рекурсивную функцию поиска в сформированном дереве
-    */
+import java.util.ArrayList;
+import java.util.List;
 
+public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello");
+        List<Integer> list = new ArrayList<>();
+        for (int i = 1; i <= 20; i++) {
+            list.add(i);
+        }
+
+        System.out.println("Исходный отсортированный список: " + list);
+
+        BinaryTree<Integer> binaryTree = new BinaryTree<>(list);
+
+        System.out.println("\nПоиск элементов:");
+        System.out.println("Поиск числа 7: " + binaryTree.find(7));
+        System.out.println("Поиск числа 21: " + binaryTree.find(21));
     }
 }
