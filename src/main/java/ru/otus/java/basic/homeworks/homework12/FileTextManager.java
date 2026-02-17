@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class FileTextManager {
-    private static final String PROJECT_PATH = System.getProperty("user.dir") + "/src/main/java/ru/otus/java/basic/homeworks/homework12";
+    private static final String PROJECT_PATH = System.getProperty("user.dir");
 
     public static void main(String[] args) {
         System.out.println("\n============ Файловый менеджер ============");
@@ -30,6 +30,12 @@ public class FileTextManager {
                 }
 
                 File file = new File(PROJECT_PATH, fileName);
+
+                if(!file.exists()) {
+                    System.out.println("\nФайл с именем " + file.getName() + " не найден");
+                    continue;
+                }
+
                 showFileContent(file);
                 System.out.println("\nВведите данные для записи в файл (или «enter» для выхода):");
                 writeToFile(file, scanner);
@@ -40,7 +46,7 @@ public class FileTextManager {
         }
     }
 
-    public static void showFilesList() throws IOException {
+    public static void showFilesList() {
         System.out.println("\n=== Текстовые файлы в корневом каталоге ===");
 
         File rootDir = new File(PROJECT_PATH);
