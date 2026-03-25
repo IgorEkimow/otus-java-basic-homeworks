@@ -25,27 +25,29 @@ class Box<T extends Fruit> {
     }
 
     public boolean compare(Box<? extends Fruit> box) {
-        return Math.abs(this.getWeight() - box.getWeight()) < 0.0001f;
+        return Float.compare(this.getWeight(), box.getWeight()) == 0;
     }
 
     public void transfer(Box<? super T> box) {
+        if (box == null) {
+            System.out.println("коробка не существует");
+
+            return;
+        }
+
         if (this == box) {
             System.out.println("нельзя пересыпать фрукты в ту же коробку!");
 
             return;
         }
 
-        if (box != null) {
-            for (T fruit : fruits) {
-                box.addFruit(fruit);
-            }
-
-            System.out.println("фрукты успешно пересыпаны");
-
-            fruits.clear();
-        } else {
-            System.out.println("невозможно пересыпать фрукты в коробку другого типа");
+        for (T fruit : fruits) {
+            box.addFruit(fruit);
         }
+
+        System.out.println("фрукты успешно пересыпаны");
+
+        fruits.clear();
     }
 
     public void viewBox() {
