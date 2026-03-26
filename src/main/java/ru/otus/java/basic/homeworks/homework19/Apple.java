@@ -1,0 +1,7 @@
+package ru.otus.java.basic.homeworks.homework19;
+
+public class Apple extends Fruit {
+    public Apple() {
+        super(0.25f);
+    }
+}
