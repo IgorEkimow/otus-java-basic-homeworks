@@ -27,8 +27,6 @@ public class Main {
 
             System.out.println("\nРезультат:");
             System.out.println("Последовательность символов \"" + searchString + "\" встречается " + count + " раз(а)");
-        } catch (FileNotFoundException e) {
-            System.err.println("Ошибка: Файл не найден - " + e.getMessage());
         } catch (IOException e) {
             System.err.println("Ошибка при чтении файла: " + e.getMessage());
         } catch (Exception e) {
@@ -42,16 +40,21 @@ public class Main {
         }
 
         int count = 0;
+        StringBuilder fileContent = new StringBuilder();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "UTF-8"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                int index = 0;
-                while ((index = line.indexOf(string, index)) != -1) {
-                    count++;
-                    index += string.length();
-                }
+                fileContent.append(line).append("\n");
             }
+        }
+
+        String content = fileContent.toString();
+
+        int index = 0;
+        while ((index = content.indexOf(string, index)) != -1) {
+            count++;
+            index += string.length();
         }
 
         return count;
