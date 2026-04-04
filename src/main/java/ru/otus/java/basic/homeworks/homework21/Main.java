@@ -5,7 +5,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
-    private static volatile char currentLetter = 'A';
+    private static char currentLetter = 'A';
     private static final Object lock = new Object();
 
     public static void main(String[] args) {
@@ -43,11 +43,13 @@ public class Main {
                             lock.wait();
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
+
+                            return;
                         }
                     }
                     System.out.print(letter);
                     currentLetter = getLetter(letter);
-                    lock.notifyAll();
+                    lock.notify();
                 }
             }
         }
