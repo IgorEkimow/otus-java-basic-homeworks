@@ -4,19 +4,23 @@ import com.google.gson.Gson;
 import ru.otus.java.basic.homeworks.homework24.HttpRequest;
 import ru.otus.java.basic.homeworks.homework24.HttpResponse;
 import ru.otus.java.basic.homeworks.homework24.app.Item;
+import ru.otus.java.basic.homeworks.homework24.repository.ItemRepository;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class CreateItemRequestProcessor implements RequestProcessor {
-    private static final AtomicLong idGenerator = new AtomicLong(4);
+    private static final Gson GSON = new Gson();
+    private final ItemRepository itemRepository;
+
+    public CreateItemRequestProcessor(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+    }
 
     @Override
     public void execute(HttpRequest request, HttpResponse response) throws IOException {
         try {
-            Gson gson = new Gson();
-            Item item = gson.fromJson(request.getBody(), Item.class);
+            Item item = GSON.fromJson(request.getBody(), Item.class);
 
             if (item.getName() == null || item.getName().trim().isEmpty()) {
                 Map<String, String> error = new HashMap<>();
@@ -34,16 +38,16 @@ public class CreateItemRequestProcessor implements RequestProcessor {
                 return;
             }
 
-            item.setId(idGenerator.getAndIncrement());
+            Item savedItem = itemRepository.save(item);
 
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("status", "success");
             responseBody.put("message", "Товар успешно создан");
-            responseBody.put("item", item);
+            responseBody.put("item", savedItem);
 
             response.setStatusCode(201).setJsonBody(responseBody).send();
 
-            System.out.println("Создан новый товар: " + item);
+            System.out.println("Создан новый товар: " + savedItem);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
             error.put("error", "Неверный формат JSON: " + e.getMessage());

@@ -1,6 +1,7 @@
 package ru.otus.java.basic.homeworks.homework24;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -37,22 +38,80 @@ public class HttpServer {
 
     private void handleRequest(Socket socket) {
         try (socket) {
-            byte[] buffer = new byte[8192];
-            int n = socket.getInputStream().read(buffer);
+            String rawRequest = readRequest(socket.getInputStream());
 
-            if (n < 1) {
+            if (rawRequest == null || rawRequest.isEmpty()) {
                 return;
             }
 
-            String rawRequest = new String(buffer, 0, n);
             HttpRequest request = new HttpRequest(rawRequest);
-
             request.info(true);
-
             dispatcher.execute(request, socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String readRequest(InputStream inputStream) throws IOException {
+        StringBuilder headerBuilder = new StringBuilder();
+        int contentLength = 0;
+        boolean headersComplete = false;
+
+        while (!headersComplete) {
+            int ch = inputStream.read();
+            if (ch == -1) {
+                return null;
+            }
+
+            headerBuilder.append((char) ch);
+
+            if (headerBuilder.length() >= 4) {
+                String endOfHeaders = headerBuilder.substring(headerBuilder.length() - 4);
+                if (endOfHeaders.equals("\r\n\r\n")) {
+                    headersComplete = true;
+                    String headers = headerBuilder.toString();
+                    int contentLengthIndex = headers.indexOf("Content-Length:");
+                    if (contentLengthIndex != -1) {
+                        int start = contentLengthIndex + "Content-Length:".length();
+                        int end = headers.indexOf("\r\n", start);
+                        String contentLengthStr = headers.substring(start, end).trim();
+                        try {
+                            contentLength = Integer.parseInt(contentLengthStr);
+                        } catch (NumberFormatException e) {
+                            contentLength = 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        String body = "";
+        if (contentLength > 0) {
+            char[] bodyChars = new char[contentLength];
+            int bytesRead = 0;
+            int totalRead = 0;
+            String headerSoFar = headerBuilder.toString();
+            int bodyStartIndex = headerSoFar.length() - 4;
+
+            if (bodyStartIndex < headerSoFar.length()) {
+                String remaining = headerSoFar.substring(bodyStartIndex);
+                for (int i = 0; i < remaining.length() && totalRead < contentLength; i++) {
+                    bodyChars[totalRead++] = remaining.charAt(i);
+                }
+            }
+
+            while (totalRead < contentLength) {
+                int ch = inputStream.read();
+                if (ch == -1) {
+                    break;
+                }
+                bodyChars[totalRead++] = (char) ch;
+            }
+
+            body = new String(bodyChars, 0, totalRead);
+        }
+
+        return headerBuilder.toString() + body;
     }
 
     public void stop() {
